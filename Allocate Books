@@ -1,0 +1,41 @@
+
+int cntStudent(vector<int>& arr, int pages)
+{
+    int num_stu = 1 , page = 0;
+    for (int i=0;i<arr.size();i++)
+    {
+        if(page + arr[i] <= pages)
+        {
+            page += arr[i];
+        }
+        else
+        {
+            num_stu++;
+            page = arr[i];
+        }
+    }
+    return num_stu;
+}
+
+int findPages(vector<int>& arr, int n, int m) {
+    // Write your code here.
+    if (m>n)
+    return -1;
+
+    int low = *max_element(arr.begin(),arr.end());
+    int sum = 0;
+
+    for( int i =0;i<n;i++)
+    {
+        sum += arr[i];
+    }
+
+    int high = sum;
+
+    for (int i=low ; i<=high ; i++)
+    {
+        int cnt = cntStudent(arr,i);
+        if (cnt <= m)
+        return i;
+    }
+}
