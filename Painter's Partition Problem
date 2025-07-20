@@ -1,0 +1,50 @@
+
+    int cnt_min(vector<int>& nums, int k,int mid)
+    {
+        int cnt = 1 , cnt_m = 0;
+        for (int i=0;i<nums.size();i++)
+        {
+            if (cnt_m+nums[i] <= mid)
+            {
+                cnt_m += nums[i];
+            }
+            else
+            {
+                cnt++;
+                cnt_m = nums[i];
+            }
+        }
+        return cnt;
+    }
+
+    int splitArray(vector<int>& nums, int k) {
+        int n = nums.size();
+        int low = *max_element(nums.begin(),nums.end());
+        int high = 0;
+        for (int i = 0;i<n;i++)
+        {
+            high += nums[i];
+        }
+        while (low <= high)
+        {
+            int mid = low + (high-low)/2;
+            int p = cnt_min(nums,k,mid);
+            if (p<=k)
+            {
+                high = mid-1;
+            }
+            else
+            {
+                low = mid+1;
+            }
+        }
+        return low;
+    }
+
+
+int findLargestMinDistance(vector<int> &boards, int k)
+{
+    //    Write your code here.
+    return splitArray(boards , k);
+
+}
