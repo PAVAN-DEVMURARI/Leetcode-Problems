@@ -1,0 +1,44 @@
+class Solution {
+  public:
+  
+    int gasStationsPossible(long double dist, vector<int> &stations)
+    {
+        int cnt = 0;
+        for (int i = 1; i < stations.size(); i++)
+        {
+            int numberInBetween = (stations[i] - stations[i-1]) / dist;
+            if ((stations[i] - stations[i-1]) / dist == numberInBetween * dist)
+            {
+                numberInBetween--;
+            }
+            cnt += numberInBetween;
+        }
+        return cnt;
+    }
+    
+  
+    double findSmallestMaxDist(vector<int> &stations, int k) {
+        // Code here
+        int n = stations.size();
+        long double low = 0;
+        long double high = 0;
+        
+        // Find the maximum gap between consecutive stations
+        for (int i = 1; i < n; i++)  // Changed from i=0 to i=1
+        {
+            high = max(high, (long double)(stations[i] - stations[i-1]));  // Changed arr to stations
+        }
+        
+        long double diff = 1e-6;
+        while (high - low > diff)
+        {
+            long double mid = low + (high - low) / 2;  // Corrected midpoint calculation
+            int cnt = gasStationsPossible(mid, stations);
+            if (cnt > k) 
+                low = mid;
+            else 
+                high = mid;
+        }
+        return high;
+    }
+};
