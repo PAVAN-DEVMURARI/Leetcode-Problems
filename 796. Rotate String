@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool rotateString(string s, string goal) {
+
+        //string::npos ensures the substring is found in it 
+        
+        int n1 = s.length();
+        int n2 = goal.length();
+
+        if (n1!=n2) return false;
+
+        string combined = s+s;
+        return combined.find(goal) != string::npos;
+    }
+};
