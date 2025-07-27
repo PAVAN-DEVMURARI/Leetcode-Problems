@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        int n1 = s.length();
+        int n2 = t.length();
+        if (n1!=n2) return false;
+
+        unordered_map<char,char> mpp_1;
+        unordered_map<char,char> mpp_2;
+
+
+        for (int i=0;i<n1;i++)
+        {
+            char c1 = s[i];
+            char c2 = t[i];
+
+            if (mpp_1.count(c1) && mpp_1[c1] != c2) return false;
+            if (mpp_2.count(c2) && mpp_2[c2] != c1) return false;
+
+           mpp_1[c1] = c2; 
+           mpp_2[c2] = c1;
+ 
+        }
+           return true;
+    }
+};
