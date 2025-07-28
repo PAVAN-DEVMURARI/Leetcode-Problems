@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string frequencySort(string s) {
+        int n = s.length();
+        unordered_map<char,int> mpp;
+        for (int i=0;i<n;i++)
+        {
+            mpp[s[i]]++;
+        }
+        vector<pair<char, int>> vec(mpp.begin(), mpp.end());
+
+        // Step 2: Sort by values in decreasing order
+        sort(vec.begin(), vec.end(), [](const pair<char, int> &a, const pair<char, int> &b) {
+            return a.second > b.second;  // descending order
+        });
+
+        s.clear();
+        for (auto &it : vec)
+        {
+            s.append(it.second,it.first);
+        }
+        return s;
+
+    }
+};
