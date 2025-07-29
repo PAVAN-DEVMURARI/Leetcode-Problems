@@ -1,0 +1,43 @@
+class Solution {
+  public:
+  
+    int func (string& s, int k)
+    {
+        int n = s.length();
+        long long count = 0;
+        int i = 0 , j = 0;
+        vector<int> c(26,0);
+        int distinct = 0;
+        for (int i=0;i<n;i++)
+        {
+            while (j<n && distinct < k)
+            {
+                c[s[j] - 97]++;
+                if (c[s[j] - 97] == 1)
+                {
+                    distinct++;
+                }
+                j++;
+            }
+            if (distinct >= k)
+            {
+                count += n-j+1;
+            }
+            c[s[i] - 97]--;
+            if (c[s[i] - 97] == 0)
+            {
+                distinct--;
+            }
+        }
+        return count;
+    }
+  
+  
+    int countSubstr(string& s, int k) {
+        // code here.
+        int n = s.length();
+        int ans = func (s,k) - func(s,k+1);
+        return ans;
+        
+    }
+};
