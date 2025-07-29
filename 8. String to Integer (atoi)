@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int myAtoi(string s) {
+        int n = s.length();
+        long long res = 0;
+        int idx = 0;
+        int sign = 1;
+
+        // Skip leading whitespaces
+        while (idx < n && s[idx] == ' ') {
+            idx++;
+        }
+
+        // Check for sign
+        if (idx < n && (s[idx] == '+' || s[idx] == '-')) {
+            if (s[idx] == '-') {
+                sign = -1;
+            }
+            idx++;
+        }
+
+        // Convert digits to integer
+        while (idx < n && isdigit(s[idx])) {
+            int digit = s[idx] - '0';
+
+            // Check for overflow before it happens
+            if (res > (long long)INT_MAX / 10 || (res == INT_MAX / 10 && digit > 7)) {
+                return sign == 1 ? INT_MAX : INT_MIN;
+            }
+
+            res = res * 10 + digit;
+            idx++;
+        }
+
+        return static_cast<int>(sign * res);
+    }
+};
