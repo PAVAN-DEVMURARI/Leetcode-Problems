@@ -1,0 +1,26 @@
+class Solution {
+public:
+
+    void f(int n , vector<int>& nums , set<vector<int>> &v)
+    {
+
+
+        if (n == nums.size())
+        {
+            v.insert(nums);
+        }
+
+        for (int i=n;i<nums.size();i++)
+        {
+            swap(nums[n] , nums[i]);
+            f(n+1,nums,v);
+            swap(nums[n] , nums[i]);
+        }
+    }
+
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        set<vector<int>> a;
+        f(0,nums,a);
+        return vector<vector<int>>(a.begin(), a.end());
+    }
+};
