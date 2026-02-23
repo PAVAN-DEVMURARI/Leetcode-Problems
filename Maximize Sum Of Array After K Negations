@@ -1,0 +1,68 @@
+class Solution {
+public:
+    int largestSumAfterKNegations(vector<int>& nums, int k) {
+        int n = nums.size();
+        sort(nums.begin() , nums.end());
+        for(int i=0;i<n;i++)
+        {
+            if(k>0 && nums[i] < 0)
+            {                                                  
+                nums[i] = -nums[i];
+                k--;
+            }
+            else
+            break;
+        }
+
+        sort(nums.begin() , nums.end());
+
+        long long sum = 0;
+        if(k%2==0)
+        {
+            for(int i=0;i<n;i++)
+            {
+                sum += nums[i];
+                // cout << nums[i] << " ";
+            }
+            // cout << endl;
+        }
+        else
+        {
+            nums[0] = -nums[0];
+            for(int i=0;i<n;i++)
+            {
+                sum += nums[i];
+                // cout << nums[i] << " ";
+            }
+        }
+        return sum;
+    }
+};
+
+// 8
+// -3 1 4 -2
+
+// -3 -2 1 4
+// 3 2 1 4
+
+// k=6
+// 1 2 3 4
+
+// -1 -2 -3 4
+
+
+// k = 7
+
+// -3 -2 0 7 8 
+
+// 3 2 0 7 8
+// 0 2 3 7 8
+
+
+
+
+
+
+
+
+
