@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int countSubmatrices(vector<vector<int>>& grid, int k) {
+        int n = grid.size();
+        int m = grid[0].size();
+
+        int cnt = 0;
+
+        vector<vector<int>> pre_sum(n,vector<int>(m,0));
+        vector<vector<int>> height(n,vector<int>(m,0));
+
+        for(int i=1;i<=m;i++)                                                      // Fix 1: i<=m
+        {
+            pre_sum[0][i-1] = (i > 1 ? pre_sum[0][i-2] : 0) + grid[0][i-1];       // Fix 2: cumulative
+            height[0][i-1] += grid[0][i-1];
+        }
+
+        for(int i=1;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                height[i][j] = height[i-1][j] + grid[i][j];                        // Fix 3: + grid[i][j]
+            }
+        }
+
+        //fill the 1st line
+        for(int i=1;i<n;i++)
+        {
+            pre_sum[i][0] = height[i][0];
+        }
+
+        //fill the remaining table of pre_sum
+        for(int i=1;i<n;i++)
+        {
+            for(int j = 1;j<m;j++)
+            {
+                pre_sum[i][j] = pre_sum[i][j-1] + height[i][j];                    // Fix 4: i][j-1
+            }
+        }
+
+        //cnt the occurence
+        for(int i=0;i<n;i++)
+        {
+            for(int j = 0;j<m;j++)
+            {
+                if(pre_sum[i][j] <= k)
+                cnt++;
+            }
+        }
+        return cnt ;
+    }
+};
