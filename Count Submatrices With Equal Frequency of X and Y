@@ -1,0 +1,61 @@
+class Solution {
+public:
+    int numberOfSubmatrices(vector<vector<char>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+
+        vector<vector<int>> temp(n,vector<int>(m,0));
+        vector<vector<int>> xCount(n,vector<int>(m,0));  // NEW: X ka count
+
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j] == 'X') {
+                    temp[i][j] = 1;
+                    xCount[i][j] = 1;   // NEW: X mila toh 1
+                }
+                else if(grid[i][j] == 'Y')
+                    temp[i][j] = -1;
+            }
+        }
+
+        // Prefix sum for both
+        vector<vector<int>> pre(n, vector<int>(m, 0));
+        vector<vector<int>> preX(n, vector<int>(m, 0));  // NEW: X ka prefix sum
+
+        for (int i = 0; i < n; i++) 
+        {
+            for (int j = 0; j < m; j++) 
+            {
+                pre[i][j] = temp[i][j];
+                preX[i][j] = xCount[i][j];  // NEW
+
+                if (i > 0) {
+                    pre[i][j] += pre[i - 1][j];
+                    preX[i][j] += preX[i - 1][j];  // NEW
+                }
+                if (j > 0) {
+                    pre[i][j] += pre[i][j - 1];
+                    preX[i][j] += preX[i][j - 1];  // NEW
+                }
+                if (i > 0 && j > 0) {
+                    pre[i][j] -= pre[i - 1][j - 1];
+                    preX[i][j] -= preX[i - 1][j - 1];  // NEW
+                }
+            }
+        }
+
+        int cnt = 0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                // FIXED: sum 0 hai AUR kam se kam ek X hona chahiye
+                if(pre[i][j] == 0 && preX[i][j] > 0)
+                    cnt++;
+            }
+        }
+        return cnt;
+    }
+};
