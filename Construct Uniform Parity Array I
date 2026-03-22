@@ -1,0 +1,44 @@
+
+class Solution {
+public:
+    bool uniformArray(vector<int>& nums1) {
+        int n = nums1.size();
+
+        int even_r = -1;
+        int odd_r = -1;
+        for(int i = 0; i < n; i++)
+        {
+            if(nums1[i] % 2 == 0)
+            {
+                even_r = nums1[i];
+            }
+            else
+            {
+                odd_r = nums1[i];
+            }
+        }
+
+        int ec = 0, oc = 0;
+        for(int i = 0; i < n; i++)
+        {
+            bool can_even = false;
+            bool can_odd = false;
+
+            if(nums1[i] % 2 == 0) can_even = true;
+            else can_odd = true;
+
+            if(even_r != -1 && (nums1[i] - even_r) % 2 != 0) can_odd = true;  
+            if(even_r != -1 && (nums1[i] - even_r) % 2 == 0) can_even = true;  
+            if(odd_r != -1 && (nums1[i] - odd_r) % 2 != 0) can_odd = true;     
+            if(odd_r != -1 && (nums1[i] - odd_r) % 2 == 0) can_even = true;    
+
+            if(can_even) ec++;
+            if(can_odd) oc++;
+        }
+
+        if(oc == n || ec == n)
+            return true;
+        else
+            return false;
+    }
+};
